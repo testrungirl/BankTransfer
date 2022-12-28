@@ -28,8 +28,6 @@ namespace BankTransfer.Api.Contracts
 
             HttpResponseMessage res = await client.SendAsync(req);
 
-
-
             if (!res.IsSuccessStatusCode)
             {
                 return new GenericResponse<BankList>()
@@ -37,18 +35,15 @@ namespace BankTransfer.Api.Contracts
                     Description = $"There was an error getting the institutions currently enrolled on NIP and their respective codes: {res.ReasonPhrase}",
                     Code = (int)res.StatusCode
                 };
-
-
             }
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             BankList banklist = await res.Content.ReadFromJsonAsync<BankList>();
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             return new GenericResponse<BankList>()
             {
                 Code = (int)res.StatusCode,
                 ResponseBody = banklist,
             };
-
-
-
 
         }
     }

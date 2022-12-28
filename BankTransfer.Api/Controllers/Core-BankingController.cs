@@ -1,6 +1,7 @@
 ﻿using BankTransfer.Api.Contracts;
 using BankTransfer.Api.Data;
 using BankTransfer.Api.Models;
+using BankTransfer.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -26,12 +27,13 @@ namespace BankTransfer.Api.Controllers
         }
         [Route("Core-Banking/validateBankAccount")]
         [HttpGet]
-        [ProducesResponseType(typeof(BankList), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<BankList>> ValidateBankAccount()
+        [ProducesResponseType(typeof(GenericResponse<ValidateAccount>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<BankList>> ValidateBankAccount([FromBody]ValidateAccountVm Obj)
         {
-            var res = await _bankRepo.;
+            var res = await _bankRepo.ValidateAccountNumber(Obj);
 
             return Ok(res);
         }
     }
 }
+
