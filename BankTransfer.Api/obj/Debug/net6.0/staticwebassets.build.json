@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "mEAr9MwUwNBW9w8s4t4cbnrGuVpKLjwgPa6SSObmNDA=",
+  "Source": "BankTransfer.Api",
+  "BasePath": "_content/BankTransfer.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

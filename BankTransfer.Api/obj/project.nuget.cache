@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Mo63OfNL385klq4B2L4gCDzUjjgHGWWJXjyBOMjxqDgrohbdMCDmd8fAzloNN0DU6ZTmZo/4TUuhH8uuLfsVQg==",
+  "dgSpecHash": "B/rH4I69Wn4fvFLUK0LBCqxEcELWpCmP2Fphm6ynLLfQnNCJk1InZBz5yI4jIeTDFJGj8PAy+qZDIelTP7LikQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\hp\\source\\repos\\BankTransfer\\BankTransfer.Api\\BankTransfer.Api.csproj",
   "expectedPackageFiles": [
@@ -18,7 +18,10 @@
     "C:\\Users\\hp\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "C:\\Users\\hp\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
     "C:\\Users\\hp\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
-    "C:\\Users\\hp\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    "C:\\Users\\hp\\.nuget\\packages\\system.net.http.json\\7.0.0\\system.net.http.json.7.0.0.nupkg.sha512",
+    "C:\\Users\\hp\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\hp\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
+    "C:\\Users\\hp\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }
