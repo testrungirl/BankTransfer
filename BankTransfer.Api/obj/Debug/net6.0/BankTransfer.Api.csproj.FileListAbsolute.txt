@@ -5,11 +5,8 @@ C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\BankTran
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\BankTransfer.Api.runtimeconfig.json
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\BankTransfer.Api.dll
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\BankTransfer.Api.pdb
-C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\AutoMapper.dll
-C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\PayStack.Net.dll
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll

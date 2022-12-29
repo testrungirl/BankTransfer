@@ -16,19 +16,19 @@ namespace BankTransfer.Api.Controllers
         {
             _bankRepo = bankRepo;
         }
-        [Route("Core-Banking/Banks")]
+        [Route("~/api/v1/Core-Banking/Banks")]
         [HttpGet]
-        [ProducesResponseType(typeof(GenericResponse<BankList>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<BankList>> Banks()
+        [ProducesResponseType(typeof(GenericResponse<IEnumerable<Bank>>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<GenericResponse<IEnumerable<Bank>>>> Banks()
         {
             var res = await _bankRepo.GetBanks();
 
             return Ok(res);
         }
-        [Route("Core-Banking/validateBankAccount")]
-        [HttpGet]
-        [ProducesResponseType(typeof(GenericResponse<ValidateAccount>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<BankList>> ValidateBankAccount([FromBody]ValidateAccountVm Obj)
+        [Route("~/api/v1/Core-Banking/validateBankAccount")]
+        [HttpPost]
+        [ProducesResponseType(typeof(GenericResponse<GenericData<ValidateAccount>>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<GenericResponse<ValidateAccount>>> ValidateBankAccount([FromBody]ValidateAccountVm Obj)
         {
             var res = await _bankRepo.ValidateAccountNumber(Obj);
 

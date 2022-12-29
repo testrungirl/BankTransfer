@@ -6,11 +6,11 @@
         public string Code { get; set; }
         public string Longcode { get; set; }
     }
-    public class BankList
+    public class GenericData<T>
     {
         public bool Status { get; set; }
         public string Message { get; set; }
-        public Bank[] Data { get; set; }
+        public T? Data { get; set; }
     }
 }
 

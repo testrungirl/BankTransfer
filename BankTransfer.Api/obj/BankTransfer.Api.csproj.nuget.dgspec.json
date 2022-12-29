@@ -40,13 +40,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+            "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.0, )"
-            },
-            "Paystack.Net": {
-              "target": "Package",
-              "version": "[1.1.0, )"
+              "version": "[13.0.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
