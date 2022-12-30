@@ -7,6 +7,7 @@ namespace BankTransfer.Api.Contracts
     public interface IBankRepository
     {
         Task<GenericResponse<IEnumerable<Bank>>> GetBanks();
-        Task<GenericResponse<ValidateAccount>> ValidateAccountNumber(ValidateAccountVm validateAccountVm);
+        Task<GenericResponse<AccountDet>> ValidateAccountNumber(ValidateAccountVm validateAccountVm);
+        Task<TransferDetails> TransferFunds(TransferVm transferVm);
     }
 }

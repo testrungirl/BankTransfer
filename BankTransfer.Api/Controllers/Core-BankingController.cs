@@ -27,13 +27,32 @@ namespace BankTransfer.Api.Controllers
         }
         [Route("~/api/v1/Core-Banking/validateBankAccount")]
         [HttpPost]
-        [ProducesResponseType(typeof(GenericResponse<GenericData<ValidateAccount>>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<GenericResponse<ValidateAccount>>> ValidateBankAccount([FromBody]ValidateAccountVm Obj)
+        [ProducesResponseType(typeof(GenericResponse<GenericData<AccountDet>>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<GenericResponse<AccountDet>>> ValidateBankAccount([FromBody] ValidateAccountVm Obj)
         {
             var res = await _bankRepo.ValidateAccountNumber(Obj);
 
             return Ok(res);
         }
+        [Route("~/api/v1/Core-Banking/BankTransfer")]
+        [HttpPost]
+        [ProducesResponseType(typeof(ValidateAccountRes), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ValidateAccountRes>> BankTransfer([FromBody] TransferVm Obj)
+        {
+            var res = await _bankRepo.TransferFunds(Obj);
+
+            return Ok(res);
+        }
+
+        //[Route("~/api/v1/core-banking/transaction")]
+        //[HttpPost]
+        //[ProducesResponseType(typeof(GenericResponse<GenericData<Recipient>>), (int)HttpStatusCode.OK)]
+        //public async Task<ActionResult<GenericResponse<Recipient>>> TransactionStatus([FromBody] ValidateRecipientReqVM Obj)
+        //{
+        //    var res = await _bankRepo.TransferFunds(Obj);
+
+        //    return Ok(res);
+        //}
     }
 }
 
