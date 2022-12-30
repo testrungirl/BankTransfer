@@ -35,3 +35,15 @@ C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\obj\Debug\net6.0\refint\B
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\obj\Debug\net6.0\BankTransfer.Api.pdb
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\obj\Debug\net6.0\BankTransfer.Api.genruntimeconfig.cache
 C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\obj\Debug\net6.0\ref\BankTransfer.Api.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Microsoft.Extensions.Http.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Microsoft.Extensions.Http.Polly.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Polly.dll
+C:\Users\hp\source\repos\BankTransfer\BankTransfer.Api\bin\Debug\net6.0\Polly.Extensions.Http.dll
