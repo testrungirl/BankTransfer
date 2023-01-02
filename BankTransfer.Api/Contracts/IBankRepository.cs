@@ -9,5 +9,6 @@ namespace BankTransfer.Api.Contracts
         Task<GenericResponse<IEnumerable<Bank>>> GetBanks();
         Task<GenericResponse<AccountDet>> ValidateAccountNumber(ValidateAccountVm validateAccountVm);
         Task<TransferDetails> TransferFunds(TransferVm transferVm);
+        Task<GenericResponse<TransactionReference>> TransactionStatus(string reference);
     }
 }

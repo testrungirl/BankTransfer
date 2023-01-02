@@ -229,13 +229,13 @@ namespace BankTransfer.Api.Contracts
                     source = "balance",
                     amount = AmountInKobo,
                     reason = transferVm.Narration,
-                    recipient = Recipient.ResponseBody.Recipient_code,
+                    recipient = Recipient.ResponseBody.recipient_code,
                 };
                 var res = await TransferCall(reqBody, transferVm.MaxRetryAttempt);
                 if (res.Status)
                 {
                     //transactiondate,amount,currency,reference
-                    res.Data.BeneficiaryAccountName = Recipient.ResponseBody.Name;
+                    res.Data.BeneficiaryAccountName = Recipient.ResponseBody.name;
                     res.Data.BeneficiaryAccountNumber = transferVm.BeneficiaryAccountNumber;
                     res.Data.BeneficiaryBankCode = transferVm.BeneficiaryBankCode;
 
@@ -248,6 +248,42 @@ namespace BankTransfer.Api.Contracts
                 {
                     ResponseCode = 500.ToString(),
                     ResponseMessage = $"Internal Server Error: {ex.Message}"
+                };
+            }
+        }
+
+        public async Task<GenericResponse<TransactionReference>> TransactionStatus(string reference)
+        {
+            try
+            {
+                using (HttpClient client = new())
+                {
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.ConnectionClose = true;
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{_token}");
+
+
+                    var response = await client.GetAsync($"https://api.paystack.co/transfer/{reference}");
+
+                    var data = await response.Content.ReadAsStringAsync();
+
+                    var Obj = JsonConvert.DeserializeObject<GenericData<TransactionReference>>(data);
+
+                    return new GenericResponse<TransactionReference>()
+                    {
+                        Code = (int)response.StatusCode,
+                        Description = Obj?.Message,
+                        ResponseBody = Obj.Data,
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new GenericResponse<TransactionReference>()
+                {
+                    Code = 500,
+                    Description = $"Internal server error: {ex.Message}"
                 };
             }
         }
