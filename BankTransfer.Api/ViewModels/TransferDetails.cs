@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BankTransfer.Api.Models
+namespace BankTransfer.Api.ViewModels
 {
     public class TransferDetails
     {

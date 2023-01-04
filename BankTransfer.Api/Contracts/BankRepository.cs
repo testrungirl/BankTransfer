@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BankTransfer.Api.Data;
-using BankTransfer.Api.Models;
 using BankTransfer.Api.ViewModels;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;

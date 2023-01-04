@@ -1,6 +1,5 @@
 ﻿using BankTransfer.Api.Contracts;
 using BankTransfer.Api.Data;
-using BankTransfer.Api.Models;
 using BankTransfer.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

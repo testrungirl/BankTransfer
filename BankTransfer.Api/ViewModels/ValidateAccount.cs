@@ -1,4 +1,4 @@
-﻿namespace BankTransfer.Api.Models
+﻿namespace BankTransfer.Api.ViewModels
 {
     public class ValidateAccount
     {

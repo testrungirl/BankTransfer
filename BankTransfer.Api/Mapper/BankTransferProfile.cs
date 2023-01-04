@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BankTransfer.Api.Models;
 using BankTransfer.Api.ViewModels;
 
 namespace BankTransfer.Api.Mapper
