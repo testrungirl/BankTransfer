@@ -4,7 +4,7 @@ namespace BankTransfer.Api.Models
 {
     public class TransferVm
     {
-        public string Amount { get; set; }
+        public decimal Amount { get; set; }
         public string CurrencyCode { get; set; }
         public string Narration { get; set; }
         public string BeneficiaryAccountNumber { get; set; }
@@ -19,6 +19,7 @@ namespace BankTransfer.Api.Models
 
     public class TransferPaystackRequest
     {
+        public string reference { get; set; }
         public string source { get; set; }
         public string reason { get; set; }
         public int amount { get; set; }

@@ -16,13 +16,15 @@ namespace BankTransfer.Api.Contracts
     {
         private readonly IConfiguration _configuration;
         private readonly string _token;
+        private readonly string _baseUrl;
         private readonly IHttpClientFactory _clientFactory;
         private readonly IMapper _mapper;
 
         public BankRepository(IConfiguration configuration, IHttpClientFactory clientFactory, IMapper mapper)
         {
             _configuration = configuration;
-            _token = _configuration["Payment:PaystackSK"];
+            _token = _configuration["Paystack_Payment:PaystackSK"];
+            _baseUrl = _configuration["Paystack_Payment:BaseUrl"];
             _clientFactory = clientFactory;
             _mapper = mapper;
         }
@@ -30,7 +32,8 @@ namespace BankTransfer.Api.Contracts
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Get, "https://api.paystack.co/bank");
+                string url = _baseUrl + "bank";
+                var req = new HttpRequestMessage(HttpMethod.Get, url);
 
                 var client = _clientFactory.CreateClient();
 
@@ -54,7 +57,6 @@ namespace BankTransfer.Api.Contracts
             }
 
         }
-
         public async Task<GenericResponse<AccountDet>> ValidateAccountNumber(ValidateAccountVm validateAccountVm)
         {
             try
@@ -79,7 +81,9 @@ namespace BankTransfer.Api.Contracts
                 string? BankName = "";
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{_token}");
 
-                var response = await client.GetAsync($"https://api.paystack.co/bank/resolve?account_number={validateAccountVm.AccountNumber}&bank_code={validateAccountVm.Code}");
+                string url = $"{_baseUrl}bank/resolve?account_number={validateAccountVm.AccountNumber}&bank_code={validateAccountVm.Code}";
+
+                var response = await client.GetAsync(url);
 
                 var data = await response.Content.ReadAsStringAsync();
 
@@ -112,6 +116,7 @@ namespace BankTransfer.Api.Contracts
                 using HttpClient client = new();
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.ConnectionClose = true;
+                var url = $"{_baseUrl}transferrecipient";
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{_token}");
 
@@ -121,7 +126,9 @@ namespace BankTransfer.Api.Contracts
 
                 var requestBody = JsonConvert.SerializeObject(recipientReqVM);
 
-                var response = await client.PostAsync("https://api.paystack.co/transferrecipient", new StringContent(requestBody, Encoding.UTF8, "application/json"));
+
+
+                var response = await client.PostAsync(url, new StringContent(requestBody, Encoding.UTF8, "application/json"));
 
                 var data = await response.Content.ReadAsStringAsync();
 
@@ -143,7 +150,6 @@ namespace BankTransfer.Api.Contracts
                 };
             }
         }
-
         private async Task<GenericData<TransferDetails>> TransferCall(TransferPaystackRequest req, int? retry = 0)
         {
             int retryForAvailability = retry.Value;
@@ -153,6 +159,7 @@ namespace BankTransfer.Api.Contracts
                 {
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.ConnectionClose = true;
+                    var url = $"{_baseUrl}transfer";
 
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{_token}");
 
@@ -164,7 +171,7 @@ namespace BankTransfer.Api.Contracts
 
                     var requestBody = JsonConvert.SerializeObject(req);
 
-                    var response = await client.PostAsync("https://api.paystack.co/transfer", new StringContent(requestBody, Encoding.UTF8, "application/json"));
+                    var response = await client.PostAsync(url, new StringContent(requestBody, Encoding.UTF8, "application/json"));
 
                     var data = await response.Content.ReadAsStringAsync();
 
@@ -178,10 +185,14 @@ namespace BankTransfer.Api.Contracts
                             await TransferCall(req, retryForAvailability);
                         }
                     }
-                   
+
                     var res = _mapper.Map<TransferDetails>(Obj.Data);
-                    res.ResponseCode = ((int)response.StatusCode).ToString();
-                    res.ResponseMessage = Obj.Message;
+                    if (res != null)
+                    {
+                        res.ResponseCode = response.StatusCode.ToString();
+                        res.ResponseMessage = Obj.Message;
+                    }
+
                     return new GenericData<TransferDetails>()
                     {
                         Status = Obj.Status,
@@ -206,7 +217,7 @@ namespace BankTransfer.Api.Contracts
             }
 
         }
-        public async Task<TransferDetails> TransferFunds(TransferVm transferVm)
+        public async Task<GenericResponse<TransferDetails>> TransferFunds(TransferVm transferVm)
         {
             try
             {
@@ -215,17 +226,17 @@ namespace BankTransfer.Api.Contracts
                 var Recipient = await CreateRecipient(RecipientReq);
                 if (Recipient.Code != 201)
                 {
-                    return new TransferDetails()
+                    return new GenericResponse<TransferDetails>()
                     {
-                        ResponseMessage = Recipient.Description,
-                        ResponseCode = Recipient.Code.ToString()
+                        Description = Recipient.Description,
+                        Code = Recipient.Code
                     };
                 }
-                _ = double.TryParse(transferVm.Amount, out double Amount);
 
-                int AmountInKobo = (int)(Amount * 100);
+                int AmountInKobo = (int)(transferVm.Amount * 100);
                 TransferPaystackRequest reqBody = new()
                 {
+                    reference = transferVm.TransactionReference ?? Guid.NewGuid().ToString("N"),
                     source = "balance",
                     amount = AmountInKobo,
                     reason = transferVm.Narration,
@@ -234,28 +245,40 @@ namespace BankTransfer.Api.Contracts
                 var res = await TransferCall(reqBody, transferVm.MaxRetryAttempt);
                 if (res.Status)
                 {
-                    //transactiondate,amount,currency,reference
                     res.Data.BeneficiaryAccountName = Recipient.ResponseBody.name;
                     res.Data.BeneficiaryAccountNumber = transferVm.BeneficiaryAccountNumber;
                     res.Data.BeneficiaryBankCode = transferVm.BeneficiaryBankCode;
 
                 }
-                return res.Data;
+                _ = short.TryParse(res?.Data?.ResponseCode, out short Code);
+                return new GenericResponse<TransferDetails>()
+                {
+                    Code = Code,
+                    Description = res.Message,
+                    ResponseBody = res.Data
+                };
             }
             catch (Exception ex)
             {
-                return new TransferDetails()
+                return new GenericResponse<TransferDetails>()
                 {
-                    ResponseCode = 500.ToString(),
-                    ResponseMessage = $"Internal Server Error: {ex.Message}"
+                    Code = 500,
+                    Description = $"Internal Server Error: {ex.Message}"
                 };
             }
         }
-
-        public async Task<GenericResponse<TransactionReference>> TransactionStatus(string reference)
+        public async Task<GenericResponse<TransactionResponse>> TransactionStatus(string reference)
         {
             try
             {
+                if (string.IsNullOrEmpty(reference))
+                {
+                    return new GenericResponse<TransactionResponse>()
+                    {
+                        Description = "Transaction reference is required",
+                        Code = 400
+                    };
+                }
                 using (HttpClient client = new())
                 {
                     client.DefaultRequestHeaders.Clear();
@@ -263,24 +286,29 @@ namespace BankTransfer.Api.Contracts
 
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{_token}");
 
-
-                    var response = await client.GetAsync($"https://api.paystack.co/transfer/{reference}");
+                    var url = $"{_baseUrl}transfer/verify/{reference}";
+                    var response = await client.GetAsync(url);
 
                     var data = await response.Content.ReadAsStringAsync();
 
-                    var Obj = JsonConvert.DeserializeObject<GenericData<TransactionReference>>(data);
-
-                    return new GenericResponse<TransactionReference>()
+                    var Obj = JsonConvert.DeserializeObject<GenericData<TransferStatus>>(data);
+                    var res = _mapper.Map<TransactionResponse>(Obj.Data);
+                    if (res != null)
+                    {
+                        res.ResponseMessage = Obj.Message;
+                        res.Status = response.StatusCode.ToString();
+                    }
+                    return new GenericResponse<TransactionResponse>()
                     {
                         Code = (int)response.StatusCode,
                         Description = Obj?.Message,
-                        ResponseBody = Obj.Data,
+                        ResponseBody = res,
                     };
                 }
             }
             catch (Exception ex)
             {
-                return new GenericResponse<TransactionReference>()
+                return new GenericResponse<TransactionResponse>()
                 {
                     Code = 500,
                     Description = $"Internal server error: {ex.Message}"
@@ -289,3 +317,5 @@ namespace BankTransfer.Api.Contracts
         }
     }
 }
+
+
